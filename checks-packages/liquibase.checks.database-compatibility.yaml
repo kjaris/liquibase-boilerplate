@@ -1,0 +1,115 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: This check warns a user when generated or raw SQL contains 'USE DATABASE'
+    directive.
+  enabled: true
+  id: '9197d8c1-86e7-3277-b3d9-677c2f2b4213'
+  name: Warn on Detection of 'USE DATABASE' statements
+  severity: '0'
+  shortName: WarnOnUseDatabase
+- description: Disallow Oracle reserved keywords from being used in database object
+    names. See https://docs.oracle.com/cd/B19306_01/em.102/b40103/app_oracle_reserved_words.htm
+    for complete list of keywords.
+  enabled: false
+  id: 'b0530bd6-986c-3084-b2d7-d01261a6337e'
+  name: Disallow oracle reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: OracleReservedKeywords
+- description: Disallow Postgres non-reserved keywords from being used in database
+    object names. See https://www.postgresql.org/docs/14/sql-keywords-appendix.html
+    for complete list of keywords.
+  enabled: false
+  id: 'f731c06a-1f37-31e4-82e2-1e7df7d9c930'
+  name: Disallow postgres non reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PostgresNonReservedKeywords
+- description: Disallow Postgres reserved keywords from being used in database object
+    names. See https://www.postgresql.org/docs/14/sql-keywords-appendix.html for complete
+    list of keywords.
+  enabled: false
+  id: '23ba52ce-5e52-3025-8404-6c455797e53a'
+  name: Disallow postgres reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PostgresReservedKeywords
+- description: Disallow SQL Server's future reserved keywords from being used in database
+    object names. See https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver16
+    for complete list of keywords.
+  enabled: false
+  id: 'e373a890-b092-3c11-b204-d71b84282a26'
+  name: Disallow sql server future reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: SQLServerFutureReservedKeywords
+- description: Disallow SQL Server's ODBC reserved keywords from being used in database
+    object names. See https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver16
+    for complete list of keywords.
+  enabled: false
+  id: '534bf3f7-941c-35a0-8127-a3b869f7eec2'
+  name: Disallow sql server odbc reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: SQLServerODBCReservedKeywords
+- description: Disallow SQL Server reserved keywords from being used in database object
+    names. See https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql?view=sql-server-ver16
+    for complete list of keywords.
+  enabled: false
+  id: '3328f158-14fe-389e-ad3d-ed633c07cd8b'
+  name: Disallow sql server reserved keywords
+  parameters:
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: ALLOWED_LIST
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: SQLServerReservedKeywords
+version: '2.0'

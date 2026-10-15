@@ -1,0 +1,4 @@
+*.log
+*.mv.db
+*.trace.db
+target/

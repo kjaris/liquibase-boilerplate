@@ -1,0 +1,193 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: This check warns a user when a column is being dropped so that they
+    can ensure that dropping the column won't lead to unintentional loss of data.
+  enabled: true
+  id: '223ed841-5f53-3eab-8ca8-f66393c689a4'
+  name: Warn when 'DROP COLUMN' detected
+  severity: '0'
+  shortName: ChangeDropColumnWarn
+- description: This check warns a user when a table is being dropped so that they
+    can ensure that dropping the table won't lead to unintentional loss of data.
+  enabled: true
+  id: '218fa8f2-ea81-308e-b010-5c25cf62c8fc'
+  name: Warn when 'DROP TABLE' detected
+  severity: '0'
+  shortName: ChangeDropTableWarn
+- description: This check warns a user when a table is being truncated so that they
+    can ensure that truncating the table won't lead to unintentional loss of data.
+  enabled: true
+  id: '136bed9a-17c5-3edc-b1e7-30065052e859'
+  name: Warn when 'TRUNCATE TABLE' detected
+  severity: '0'
+  shortName: ChangeTruncateTableWarn
+- description: This check scans your target URL database tables to find tables which
+    do not have an associated index.
+  enabled: true
+  id: 'b945447e-9e2a-3422-b40c-543d7505568a'
+  name: Table must have an index
+  severity: '0'
+  shortName: CheckTablesForIndex
+- description: This check warns a user when a ChangeSet includes a ChangeType listed
+    by the user as forbidden
+  enabled: true
+  id: '467fd8ba-a898-30a7-b265-aa48a023ae21'
+  name: Warn on Use of User Defined ChangeTypes
+  parameters:
+  - parameter: CHANGE_TYPE_LIST
+    value: dropTable,dropColumn
+  parentRuleId: null
+  severity: '0'
+  shortName: DetectChangeType
+- description: This checks triggers when the Max Affected Rows Allowed value is exceeded
+    by the number of rows DELETED by a SQL statement.  The SQL statement is executed
+    against the database, and then rolled back.
+  enabled: true
+  id: '99b1c0d2-6dda-3acb-85f3-68002c3b07c1'
+  name: Check Affected Rows Count on Delete
+  parameters:
+  - parameter: MAX_ROWS
+    value: 50
+  - parameter: MESSAGE
+    value: <AFFECTED_ROWS> rows will be affected, which is more than the allowed '<THRESHOLD>'
+      rows. The SQL statement is '<STATEMENT>'.
+  parentRuleId: null
+  severity: '0'
+  shortName: MaxAffectedRowsAllowedDelete
+- description: This checks triggers when the Max Affected Rows Allowed value is exceeded
+    by the number of rows INSERTED by a SQL statement.  The SQL statement is executed
+    against the database, and then rolled back.
+  enabled: true
+  id: 'bbd74a72-77d4-3517-9125-c771f790178b'
+  name: Check Affected Rows Count on Insert
+  parameters:
+  - parameter: MAX_ROWS
+    value: 50
+  - parameter: MESSAGE
+    value: <AFFECTED_ROWS> rows will be affected, which is more than the allowed '<THRESHOLD>'
+      rows. The SQL statement is '<STATEMENT>'.
+  parentRuleId: null
+  severity: '0'
+  shortName: MaxAffectedRowsAllowedInsert
+- description: This checks triggers when the Max Affected Rows Allowed value is exceeded
+    by the number of rows UPDATED by a SQL statement.  The SQL statement is executed
+    against the database, and then rolled back.
+  enabled: true
+  id: 'e9e2055d-e837-3418-96ac-352416cd43ee'
+  name: Check Affected Rows Count on Update
+  parameters:
+  - parameter: MAX_ROWS
+    value: 50
+  - parameter: MESSAGE
+    value: <AFFECTED_ROWS> rows will be affected, which is more than the allowed '<THRESHOLD>'
+      rows. The SQL statement is '<STATEMENT>'.
+  parentRuleId: null
+  severity: '0'
+  shortName: MaxAffectedRowsAllowedUpdate
+- description: This check warns a user when a change will result in modification of
+    a data type so they can ensure that modifying the data type won't lead to unintentional
+    loss of data
+  enabled: true
+  id: 'e98e0a4d-0582-360b-a89f-37b2f65e65d2'
+  name: Warn when 'MODIFY <column>' detected
+  severity: '0'
+  shortName: ModifyDataTypeWarn
+- description: This check warns when a create table action doesn't also include a
+    primary key.
+  enabled: true
+  id: '8164f717-c798-323b-b268-65b5eca0784e'
+  name: Require primary key when creating table
+  parameters:
+  - parameter: EXCEPTIONS_LIST
+    value: ''
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PrimaryKeyOnCreateTable
+- description: This check warns a user when generated or raw SQL contains 'SELECT
+    *' statements so that they can ensure  selecting all fields from a table in a
+    query is safe and necessary
+  enabled: true
+  id: 'b36ff4e4-b647-3bfa-b73f-33c7a588c567'
+  name: Warn on Detection of 'SELECT *'
+  severity: '0'
+  shortName: SqlSelectStarWarn
+- description: Ensures that no table has more than a threshold number of columns.
+  enabled: true
+  id: '2abde5de-a71d-3ead-8fd6-e13a743c0aec'
+  name: Check Table Column Count
+  parameters:
+  - parameter: MAX_COLUMNS
+    value: 50
+  parentRuleId: null
+  severity: '0'
+  shortName: TableColumnLimit
+- description: Check for and alert when specified table does not contain the required
+    constraint(s).
+  enabled: false
+  id: 'c3a5ceda-c901-3864-8394-18c04139036c'
+  name: Constraint must exist
+  parameters:
+  - parameter: CONSTRAINT_OPERATOR
+    value: STARTS_WITH
+  - parameter: TABLE_NAME
+    value: null
+  - parameter: COLUMN_NAME
+    value: null
+  - parameter: CONSTRAINT
+    value: PRIMARYKEY
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: MESSAGE
+    value: The specified table '<TABLE_NAME>' does not contain the required '<CONSTRAINT>'
+      constraint.
+  parentRuleId: null
+  severity: '0'
+  shortName: ConstraintMustExist
+- description: This check triggers when Dynamo changetype attributes do not match
+    the user-supplied string or regex pattern.
+  enabled: false
+  id: '7906393d-e077-3d46-b8bf-0edc4078afc0'
+  name: Dynamo changetype attributes
+  parameters:
+  - parameter: DYNAMO_CHANGE_TYPE
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: DynamoChangetypeAttributes
+- description: This check triggers when a XML,YAML, or JSON changeset contains the
+    Dynamo-specific deleteDynamoTable changetype.
+  enabled: false
+  id: '05145e51-8100-3fde-9b37-2dce28931cc7'
+  name: Warn on Dynamo-specific deleteDynamoTable changetype
+  severity: '0'
+  shortName: DynamoDeleteDynamoTableCheck
+- description: This check triggers when a XML,YAML, or JSON changeset contains the
+    Dynamo-specific deleteGlobalSecondaryIndex changetype.
+  enabled: false
+  id: 'baa51654-b8c3-30cd-8376-1f8bc3c5d9fb'
+  name: Warn on Dynamo-specific deleteGlobalSecondaryIndex changetype
+  severity: '0'
+  shortName: DynamoDeleteGlobalSecondaryIndexCheck
+- description: This check triggers when Mongo changetype attributes do not match the
+    user-supplied string or regex pattern.
+  enabled: false
+  id: '17313e6f-e5ac-3592-b213-3df1344a1240'
+  name: Mongo changetype attributes
+  parameters:
+  - parameter: MONGO_CHANGE_TYPE
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: MongoChangetypeAttributes
+version: '2.0'

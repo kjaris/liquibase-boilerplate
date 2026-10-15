@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.liatrio</groupId>
+	<artifactId>engen-liquibase</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>EnGen Liquibase Secure boilerplate</name>
+	<description>Standalone Liquibase Secure project. The changelog and checks files are the YAML example shipped with Liquibase Secure 6.0.0.</description>
+
+	<properties>
+		<liquibase.version>6.0.0</liquibase.version>
+		<h2.version>2.5.252</h2.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<!--
+				Same shape as the Secure 6.0 Maven example: the plugin reads liquibase.properties,
+				and the database driver is a plugin dependency because the plugin has its own classpath.
+				liquibase-maven-plugin 6.0.0 already depends on liquibase-commercial 6.0.0.
+			-->
+			<plugin>
+				<groupId>com.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<propertyFile>liquibase.properties</propertyFile>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

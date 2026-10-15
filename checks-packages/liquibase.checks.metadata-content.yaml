@@ -1,0 +1,130 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: This check enforces the Liquibase recommendation that comments be added
+    to each changeset to document the purpose of a changeset for other/future consumers
+    of this changelog
+  enabled: true
+  id: '517fcf2f-769c-3916-af1c-4c6aeef37914'
+  name: Changesets Must Have a Comment Assigned
+  severity: '0'
+  shortName: ChangesetCommentCheck
+- description: This check enforces the Liquibase recommendation that contexts be assigned
+    to each changeset to provide better deployment control and to enhance traceability
+    of efforts across changesets.
+  enabled: true
+  id: 'e56b7a4a-5953-3be3-96d2-0814eb8e7a02'
+  name: Changesets Must Have a Context Assigned
+  severity: '0'
+  shortName: ChangesetContextCheck
+- description: This check enforces the Liquibase recommendation that labels be assigned
+    to each changeset to provide better deployment control and to enhance traceability
+    of efforts across changesets.
+  enabled: true
+  id: '00da80be-8adf-3c05-9380-b2538ae3015a'
+  name: Changesets Must Have a Label Assigned
+  severity: '0'
+  shortName: ChangesetLabelCheck
+- description: ' This check triggers when a changelog does not start with the required
+    ''--liquibase formatted sql'' header.'
+  enabled: true
+  id: 'c0d4fc4f-3e1f-3281-92c7-c18c63eb4865'
+  name: Check for Formatted SQL header
+  parameters:
+  - parameter: SQL_FILE_EXCEPTIONS_LIST
+    value: ''
+  parentRuleId: null
+  severity: '0'
+  shortName: FormattedSqlHeaderRequired
+- description: This check triggers when specified attributes do not match the user-supplied
+    string or regex pattern.
+  enabled: false
+  id: '84092e22-894a-3452-a778-5bfae8ba03ca'
+  name: Changeset attributes and value
+  parameters:
+  - parameter: ATTRIBUTE
+    value: null
+  - parameter: SEARCH_STRING
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: ChangesetAttributesAndValue
+- description: This check triggers when specified attributes do not match TRUE or
+    FALSE, as configured by the user.
+  enabled: false
+  id: '8339bc72-ae9e-3678-8a86-2af1b8aa2d1c'
+  name: Changeset attributes set true or false
+  parameters:
+  - parameter: ATTRIBUTE
+    value: null
+  - parameter: SEARCH_STRING
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: ChangesetAttributesSetTrueOrFalse
+- description: Alerts when a changeset ID does not follow the 8-4-4-4-12 pattern of
+    UUID or GUID.
+  enabled: false
+  id: 'af508207-cd38-3498-8a56-187ed76caebb'
+  name: Require Changeset ID is valid UUID
+  severity: '0'
+  shortName: RequireChangesetIDisUUID
+- description: 'With database-scope, this check flags any table which does not have
+    a comment. With changelog-scope, this check triggers on changesets with a CREATE
+    table changetype that does not also add a comment for the table in that same changeset.
+    (Note: This is not a check for a Liquibase changelog comment.)'
+  enabled: false
+  id: 'f9a9e270-09b1-3a4c-90b1-e3ae1de98d77'
+  name: Table must have a comment
+  severity: '0'
+  shortName: TableCommentCheck
+- description: This check triggers when specific user-supplied patterns are found
+    in Table Comments.
+  enabled: false
+  id: '52e205f6-185c-3e14-9e90-18c66f1267a9'
+  name: Table Comment Pattern Check
+  parameters:
+  - parameter: OPERATOR
+    value: CONTAINS
+  - parameter: SEARCH_STRING
+    value: null
+  - parameter: MESSAGE
+    value: A match for regular expression <SEARCH_STRING> was detected in <IDENTIFIER>.
+  parentRuleId: null
+  severity: '0'
+  shortName: TableCommentPatternCheck
+- description: This check confirms that a specific context or a context that matches
+    a specific pattern is present on all changesets.
+  enabled: false
+  id: '435d5958-9c70-3ae3-947a-9a80df8fdf7a'
+  name: Check for User Defined Context
+  parameters:
+  - parameter: OPERATOR
+    value: STARTS_WITH
+  - parameter: SEARCH_STRING
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: UserDefinedContextCheck
+- description: This check confirms that a specific label or a label that matches a
+    specific pattern is present on all changesets.
+  enabled: false
+  id: 'e854b95b-4256-3d23-985d-f9e1f2659983'
+  name: Check for User Defined Label
+  parameters:
+  - parameter: OPERATOR
+    value: STARTS_WITH
+  - parameter: SEARCH_STRING
+    value: null
+  parentRuleId: null
+  severity: '0'
+  shortName: UserDefinedLabelCheck
+version: '2.0'

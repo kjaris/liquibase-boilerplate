@@ -1,0 +1,340 @@
+##########           LIQUIBASE FLOWFILE                ##########
+##########  learn more http://docs.liquibase.com/flow  ##########
+
+#### About this file liquibase-create-checks-packages.flow.yaml
+#    This flow file generates the checks-packages artifacts shipped with Liquibase:
+#      liquibase.checks-settings.conf (IF IT DOESNT EXIST)
+#      liquibase.checks-package.yaml
+#      checks-packages (directory)
+#        >liquibase.checks.auth-and-access.yaml
+#        >liquibase.checks.data-protection.yaml
+#        >liquibase.checks.database-compatibility.yaml
+#        >liquibase.checks.metadata-content.yaml
+#        >liquibase.checks.scripting-standards.yaml
+#        >liquibase.checks.sensitive-data-pii.yaml
+#
+#    But the real value is to serve as a template for generating your own checks packages
+#    if you already have a base checks-settings file which you would like to split into
+#    themed checks settings file in a sub-dir, controlled by a checks-package file.
+#
+#
+#    To run this file: liquibase flow --flow-file=liquibase.create-checks-packages.flow.yaml
+#
+
+
+
+#### Start the flow file
+
+## Set up some global variables for property substitution in ANY stage
+globalVariables:
+  CHKSPKGSDIR: "./checks-packages"
+  BASECHECKSFILE: "liquibase.checks-settings.conf"
+
+  AUTHANDACCESS_FILE: "liquibase.checks.auth-and-access.yaml"
+  AUTHANDACCESS_CHECKS: "SqlGrantWarn,SqlGrantOptionWarn,SqlGrantAdminWarn,SqlRevokeWarn"
+  AUTHANDACCESS_PKGNAME: "auth-and-access.pkg"
+
+  DATAPROTECTION_FILE: "liquibase.checks.data-protection.yaml"
+  DATAPROTECTION_CHECKS: "ChangeDropColumnWarn,ChangeDropTableWarn,ChangeTruncateTableWarn,CheckTablesForIndex,DetectChangeType,MaxAffectedRowsAllowedDelete,MaxAffectedRowsAllowedInsert,MaxAffectedRowsAllowedUpdate,ModifyDataTypeWarn,PrimaryKeyOnCreateTable,SqlSelectStarWarn,TableColumnLimit"
+  DATAPROTECTION_PKGNAME: "data-protection.pkg"
+
+  DBCOMPAT_FILE: "liquibase.checks.database-compatibility.yaml"
+  DBCOMPAT_CHECKS: "WarnOnUseDatabase"
+  DBCOMPAT_PKGNAME: "database-compatibility.pkg"
+
+  METADATACONTENT_FILE: "liquibase.checks.metadata-content.yaml"
+  METADATACONTENT_CHECKS: "ChangesetCommentCheck,ChangesetContextCheck,ChangesetLabelCheck,FormattedSqlHeaderRequired"
+  METADATACONTENT_PKGNAME: "metadata-content.pkg"
+
+  SCRIPTINGSTANDARDS_FILE: "liquibase.checks.scripting-standards.yaml"
+  SCRIPTINGSTANDARDS_CHECKS: "CheckRunInTransactionValue,OneChangePerChangeset,RollbackRequired"
+  SCRIPTINGSTANDARDS_PKGNAME: "scripting-standards.pkg"
+
+  SENSITIVEDATAPII_FILE: "liquibase.checks.sensitive-data-pii.yaml"
+  SENSITIVEDATAPII_PKGNAME: "sensitive-data-pii.pkg"
+
+  CHECKSPACKAGE_MASTERFILE: "liquibase.checks-package.yaml"
+  CHECKSPACKAGE_MASTERFILE_HEADER: "liquibase.checks-package-header.yaml"
+
+
+
+## Note: Any command which fails in any stage below result in the command stopping, and endStage being run.
+stages:
+
+
+  ## create a default checks-settings file
+  stage-create-default-conf-file:
+
+    actions:
+      - type: shell
+        if: exists("${BASECHECKSFILE}")==empty
+        command: bash -c "1 | liquibase checks show";echo 'default checks setting config file created'
+
+
+  ## A prep stage.
+  stage-mkdir:
+
+    actions:
+      - type: shell
+        command: bash -c "mkdir -p ${CHKSPKGSDIR}"
+      - type: shell
+        command: bash -c "echo 'Made dir ${CHKSPKGSDIR}'"
+
+
+  ## turn off all checks
+  stage-checks-disable:
+
+    actions:
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE auth-and-access checks settings file
+  stage-auth-and-access-yaml:
+
+    stageVariables:
+      THISFILE: "${AUTHANDACCESS_FILE}"
+      THESECHECKS: "${AUTHANDACCESS_CHECKS}"
+
+    actions:
+      - type: liquibase
+        command: checks enable
+        cmdArgs: {check-name: "${THESECHECKS}"}
+      - type: liquibase
+        command: checks show
+        cmdArgs: {check-status: enabled}
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${THISFILE};echo 'created file ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${THISFILE};echo 'copied enabled checks to ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE data-protection checks settings file
+  stage-data-protection-yaml:
+
+    stageVariables:
+      THISFILE: "${DATAPROTECTION_FILE}"
+      THESECHECKS: "${DATAPROTECTION_CHECKS}"
+
+    actions:
+      - type: liquibase
+        command: checks enable
+        cmdArgs: {check-name: "${THESECHECKS}"}
+      - type: liquibase
+        command: checks show
+        cmdArgs: {check-status: enabled}
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${THISFILE};echo 'created file ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${THISFILE};echo 'copied enabled checks to ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE database-compatibility checks settings file
+  stage-database-compatibility-yaml:
+
+    stageVariables:
+      THISFILE: "${DBCOMPAT_FILE}"
+      THESECHECKS: "${DBCOMPAT_CHECKS}"
+
+    actions:
+      - type: liquibase
+        command: checks enable
+        cmdArgs: {check-name: "${THESECHECKS}"}
+      - type: liquibase
+        command: checks show
+        cmdArgs: {check-status: enabled}
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${THISFILE};echo 'created file ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${THISFILE};echo 'copied enabled checks to ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE metadata-content checks settings file
+  stage-metadata-content-yaml:
+
+    stageVariables:
+      THISFILE: "${METADATACONTENT_FILE}"
+      THESECHECKS: "${METADATACONTENT_CHECKS}"
+
+    actions:
+      - type: liquibase
+        command: checks enable
+        cmdArgs: {check-name: "${THESECHECKS}"}
+      - type: liquibase
+        command: checks show
+        cmdArgs: {check-status: enabled}
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${THISFILE};echo 'created file ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${THISFILE};echo 'copied enabled checks to ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE scripting-standards checks settings file
+  stage-scripting-standards-yaml:
+
+    stageVariables:
+      THISFILE: "${SCRIPTINGSTANDARDS_FILE}"
+      THESECHECKS: "${SCRIPTINGSTANDARDS_CHECKS}"
+
+    actions:
+      - type: liquibase
+        command: checks enable
+        cmdArgs: {check-name: "${THESECHECKS}"}
+      - type: liquibase
+        command: checks show
+        cmdArgs: {check-status: enabled}
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${THISFILE};echo 'created file ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${THISFILE};echo 'copied enabled checks to ${CHKSPKGSDIR}/${THISFILE}'"
+      - type: liquibase
+        command: checks bulkset
+        cmdArgs: {disable: true, force: true}
+
+
+  ## CREATE sensitive-data-pii checks settings file (all disabled — no enable step needed)
+  stage-sensitive-data-pii-yaml:
+
+    actions:
+      - type: shell
+        command: bash -c "touch ${CHKSPKGSDIR}/${SENSITIVEDATAPII_FILE};echo 'created file ${CHKSPKGSDIR}/${SENSITIVEDATAPII_FILE}'"
+      - type: shell
+        command: bash -c "cp ${BASECHECKSFILE} ${CHKSPKGSDIR}/${SENSITIVEDATAPII_FILE};echo 'copied checks to ${CHKSPKGSDIR}/${SENSITIVEDATAPII_FILE}'"
+
+
+  ## CREATE the checks package file entries
+  stage-add-auth-and-access-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${AUTHANDACCESS_PKGNAME}"
+      THISPKG_CONTENTS: "${AUTHANDACCESS_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  stage-add-data-protection-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${DATAPROTECTION_PKGNAME}"
+      THISPKG_CONTENTS: "${DATAPROTECTION_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  stage-add-database-compatibility-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${DBCOMPAT_PKGNAME}"
+      THISPKG_CONTENTS: "${DBCOMPAT_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  stage-add-metadata-content-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${METADATACONTENT_PKGNAME}"
+      THISPKG_CONTENTS: "${METADATACONTENT_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  stage-add-scripting-standards-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${SCRIPTINGSTANDARDS_PKGNAME}"
+      THISPKG_CONTENTS: "${SCRIPTINGSTANDARDS_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  stage-add-sensitive-data-pii-pkg-to-chkspkg-file:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "${SENSITIVEDATAPII_PKGNAME}"
+      THISPKG_CONTENTS: "${SENSITIVEDATAPII_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${CHKSPKGSDIR}/${THISPKG_CONTENTS}"}
+
+
+  ## add coding-standards composite pkg (metadata-content + scripting-standards)
+  stage-coding-standards:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "coding-standards.pkg"
+      THISPKG_CONTENTS: "${CHKSPKGSDIR}/${METADATACONTENT_FILE},${CHKSPKGSDIR}/${SCRIPTINGSTANDARDS_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${THISPKG_CONTENTS}"}
+
+
+  ## add security composite pkg (auth-and-access + data-protection)
+  stage-security:
+
+    stageVariables:
+      THISPKG_FILE: "${CHECKSPACKAGE_MASTERFILE}"
+      THISPKG_NAME: "security.pkg"
+      THISPKG_CONTENTS: "${CHKSPKGSDIR}/${AUTHANDACCESS_FILE},${CHKSPKGSDIR}/${DATAPROTECTION_FILE}"
+
+    actions:
+      - type: liquibase
+        command: checks create
+        cmdArgs: {package-file: "${THISPKG_FILE}", package-name: "${THISPKG_NAME}", package-contents: "${THISPKG_CONTENTS}"}
+
+
+  ## Prepend informational header to the checks package file
+  stage-add-INFO-HEADER-chkspkg-file:
+
+    actions:
+      - type: shell
+        command: bash -c "cat ${CHECKSPACKAGE_MASTERFILE_HEADER} ${CHECKSPACKAGE_MASTERFILE} > tmmmp.tmp && mv tmmmp.tmp ${CHECKSPACKAGE_MASTERFILE}"
+      - type: shell
+        command: bash -c "echo 'added informational header to ${CHECKSPACKAGE_MASTERFILE}'"
+
+
+
+## The endStage ALWAYS RUNS.
+endStage:
+  actions:
+    - type: shell
+      command: bash -c "echo 'New Checks Package file ${CHECKSPACKAGE_MASTERFILE}'"

@@ -1,0 +1,194 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: ' This check triggers when a changeset contains the user-specified
+    runInTransactions value of ''true'' or ''false''. Note: Changesets without a runInTransactions
+    value are not checked.'
+  enabled: true
+  id: '1fdc2bbb-67a4-3d45-baad-09e69f1108cd'
+  name: Check Changeset runInTransaction value
+  parameters:
+  - parameter: RUN_IN_TRANSACTION_VALUE
+    value: false
+  - parameter: MESSAGE
+    value: A match for regular expression <SEARCH_STRING> was detected in Changeset
+      <CHANGESET>.
+  parentRuleId: null
+  severity: '0'
+  shortName: CheckRunInTransactionValue
+- description: This check enforces the Liquibase Best Practice of keeping individual
+    changesets small by limiting them to one statement or change.
+  enabled: true
+  id: '2b02222f-32cf-3761-add0-9615b821678f'
+  name: One Change Per Changeset
+  severity: '0'
+  shortName: OneChangePerChangeset
+- description: This check triggers when a changeset does not have a rollback defined.
+  enabled: true
+  id: 'd517b518-8a6f-3084-a5be-97e7d89c6860'
+  name: Rollback Required for Changeset
+  severity: '0'
+  shortName: RollbackRequired
+- description: This check triggers when a changeset contains the supplied pattern
+    string or regex, but does not have an end delimiter set specifically in the changeset
+    or via options such as 'pro-global-end-delimiter' or 'endDelimiter' attribute
+    in a modifyChangesets tag.
+  enabled: false
+  id: 'd2fc6f01-8ddd-35f3-bc03-f516a8f611ac'
+  name: End delimiter exists when pattern exists
+  parameters:
+  - parameter: SEARCH_STRING
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: STRIP_COMMENTS
+    value: true
+  - parameter: MESSAGE
+    value: The pattern '<SEARCH_STRING>' was found without an end delimiter in Changeset
+      '<CHANGESET>'.
+  parentRuleId: null
+  severity: '0'
+  shortName: EndDelimiterExistsWhenPatternExists
+- description: This check confirms the listed object names conform to the supplied
+    pattern.
+  enabled: false
+  id: '51362082-ddc1-34dc-98f6-c7413345b19b'
+  name: Object name pattern match
+  parameters:
+  - parameter: OPERATOR
+    value: STARTS_WITH
+  - parameter: SEARCH_STRING
+    value: null
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: ObjectNameMustMatch
+- description: This check confirms the listed object names do not match the supplied
+    pattern.
+  enabled: false
+  id: '1bd2ac39-66fd-31fc-ac37-d6ba4c6319cc'
+  name: Object name pattern not match
+  parameters:
+  - parameter: OPERATOR
+    value: STARTS_WITH
+  - parameter: SEARCH_STRING
+    value: null
+  - parameter: OBJECT_TYPES
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: ObjectNameMustNotMatch
+- description: Check triggers if the user-supplied regex pattern A is followed by
+    the user-supplied regex pattern B
+  enabled: false
+  id: '840a30f4-b3c5-3ad5-ac9b-6251d1f7b99d'
+  name: Pattern a followed by pattern b
+  parameters:
+  - parameter: PATTERN_A
+    value: null
+  - parameter: PATTERN_B
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: MESSAGE
+    value: 'Match found: ''<PATTERN_A>'' is followed by ''<PATTERN_B>'' in Changeset
+      ''<CHANGESET>''.'
+  - parameter: STRIP_COMMENTS
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PatternAFollowedByPatternB
+- description: Check triggers if the user-supplied regex pattern A is NOT followed
+    by the user-supplied regex pattern B
+  enabled: false
+  id: 'f9a6e39d-0799-3041-9b5a-6b61db4bc630'
+  name: Pattern a not followed by pattern b
+  parameters:
+  - parameter: PATTERN_A
+    value: null
+  - parameter: PATTERN_B
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: MESSAGE
+    value: 'Match found: ''<PATTERN_A>'' is NOT followed by ''<PATTERN_B>'' in Changeset
+      ''<CHANGESET>''.'
+  - parameter: STRIP_COMMENTS
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PatternANotFollowedByPatternB
+- description: Check triggers if the user-supplied regex pattern A is NOT preceded
+    by the user-supplied regex pattern B
+  enabled: false
+  id: 'a089037f-4fd5-3873-a07e-16105ded71c0'
+  name: Pattern a not preceded by pattern b
+  parameters:
+  - parameter: PATTERN_A
+    value: null
+  - parameter: PATTERN_B
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: MESSAGE
+    value: 'Match found: ''<PATTERN_A>'' is NOT preceded by ''<PATTERN_B>'' in Changeset
+      ''<CHANGESET>''. '
+  - parameter: STRIP_COMMENTS
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PatternANotPrecededByPatternB
+- description: Check triggers if the user-supplied regex pattern A is preceded by
+    the user-supplied regex pattern B
+  enabled: false
+  id: 'e5faa299-31c1-361e-89f3-8c5ad9e49a22'
+  name: Pattern a preceded by pattern b
+  parameters:
+  - parameter: PATTERN_A
+    value: null
+  - parameter: PATTERN_B
+    value: null
+  - parameter: CASE_SENSITIVE
+    value: true
+  - parameter: MESSAGE
+    value: 'Match found: ''<PATTERN_A>'' is preceded by ''<PATTERN_B>'' in Changeset
+      ''<CHANGESET>''.'
+  - parameter: STRIP_COMMENTS
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: PatternAPrecededByPatternB
+- description: This check scans SQL for the presence of specific patterns in specified
+    changelog paths, and warns the user when they are found.
+  enabled: false
+  id: '6fe07581-c90d-3add-9057-1547a1439727'
+  name: Check for specific patterns in sql
+  parameters:
+  - parameter: SEARCH_STRING
+    value: null
+  - parameter: MESSAGE
+    value: A match for regular expression <SEARCH_STRING> was detected in Changeset
+      <CHANGESET> in changelog path <PATH_FILTER_REGEX>.
+  - parameter: STRIP_COMMENTS
+    value: true
+  - parameter: PATH_FILTER_REGEX
+    value: null
+  - parameter: SPLIT_STATEMENTS
+    value: false
+  parentRuleId: null
+  severity: '0'
+  shortName: SqlUserDefinedPatternCheck
+version: '2.0'

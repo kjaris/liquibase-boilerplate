@@ -1,0 +1,56 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: This check warns a user when SQL contains 'GRANT' statements so that
+    they can ensure that the privilege being granted won't lead to security issues.
+  enabled: true
+  id: '38fc7edf-9a60-3d00-8b40-23c7e719745f'
+  name: Warn on Detection of 'GRANT' Statements
+  severity: '0'
+  shortName: SqlGrantWarn
+- description: This check warns a user when SQL contains 'REVOKE' statements so that
+    they can ensure that the privilege being revoked won't lead to data access and
+    dependency issues.
+  enabled: true
+  id: '0b73828f-2e8d-3c36-b1c3-7153bcb6f160'
+  name: Warn on Detection of 'REVOKE' Statements
+  severity: '0'
+  shortName: SqlRevokeWarn
+- description: This check warns a user when SQL contains 'GRANT' statements that include
+    the 'WITH GRANT OPTION' clause so that they can ensure that the privilege being
+    granted won't lead to security issues
+  enabled: true
+  id: '892b5881-6d02-3846-bdf0-c8538e7b013f'
+  name: Warn on Detection of grant that contains 'WITH GRANT OPTION'
+  severity: '0'
+  shortName: SqlGrantOptionWarn
+- description: This check warns a user when SQL contains 'GRANT' statements that include
+    the 'WITH ADMIN OPTION' clause so that they can ensure that the privilege being
+    granted won't lead to security issues
+  enabled: true
+  id: 'a85a72fd-9d93-33cd-bbdb-59f21538af9d'
+  name: Warn on Detection of grant that contains 'WITH ADMIN OPTION'
+  severity: '0'
+  shortName: SqlGrantAdminWarn
+- description: This check warns a user when changeset includes or generates sql that
+    grants specific privileges to a user or role
+  enabled: false
+  id: '751a7709-1676-36eb-b1fb-31819ff4b681'
+  name: Warn on Grant of Specific Privileges
+  parameters:
+  - parameter: PRIVILEGE_LIST
+    value: null
+  - parameter: STRIP_COMMENTS
+    value: true
+  parentRuleId: null
+  severity: '0'
+  shortName: SqlGrantSpecificPrivsWarn
+version: '2.0'

@@ -1,0 +1,9 @@
+# Optional Oracle defaults. Copy to liquibase.properties only for a scratch schema.
+# Do not point this at the engen app user: example-changelog.yaml creates person and company,
+# and it would share DATABASECHANGELOG with the API.
+#
+# Set LIQUIBASE_COMMAND_PASSWORD and LIQUIBASE_LICENSE_KEY in the environment.
+# Add com.oracle.database.jdbc:ojdbc17 to the Maven plugin dependencies before updating.
+changeLogFile=example-changelog.yaml
+liquibase.command.url=jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+liquibase.command.username=liquibase

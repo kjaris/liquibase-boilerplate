@@ -1,0 +1,102 @@
+## Policy Checks Settings File
+########## IMPORTANT: NEVER EDIT THIS KEY
+## id: 'some-l0ng-uni4ue-id3nt1fier-c0d3'
+
+########## ALWAYS EDITABLE KEY VALUES and PARAMETERS
+##  severity: <can be set to 0, 1, 2, 3, 4>
+##  enabled: <can be "true" or "false">
+
+fileCreated: 2025-01-01T00:00:00.000Z
+fileModified: 2025-01-01T00:00:00.000Z
+rules:
+- description: This check triggers when PII (Personally Identifiable Information)
+    or PHI (Protected Health Information) are detected in changelogs or in your database.
+    Copy this check to configure the subset of 'identifiers' you wish to detect.
+  enabled: false
+  id: '20aff0bc-2db0-3957-ba25-f883df6c18dc'
+  name: Sensitive Info Check| PII and PHI Check
+  parameters:
+  - parameter: IDENTIFIERS
+    value: null
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: SensitiveInfoCheck
+- description: Identifies highly-sensitive Financial or Bank information, helping
+    avoid PII (Personally Identifiable Information) data exposure, and supporting
+    audit and authorization requirements in highly-regulated environments.
+  enabled: false
+  id: '3bdf9850-b8f4-39cc-9e8a-c2e4a8d72a05'
+  name: PII (Financial) Information detection
+  parameters:
+  - parameter: FINANCIAL_IDENTIFIERS
+    value: ALL
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: PIIfinancial
+- description: Identifies highly-sensitive Person-centered information, helping avoid
+    PII (Personally Identifiable Information) data exposure, and supporting audit
+    and authorization requirements in highly-regulated environments.
+  enabled: false
+  id: '0e330ceb-c62d-3fd1-9be2-994101637a2e'
+  name: PII (Personal) Information detection
+  parameters:
+  - parameter: PERSONAL_IDENTIFIERS
+    value: ALL
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: PIIpersonal
+- description: Identifies highly-sensitive Health, Hospital and Doctor information,
+    helping avoid PII (Personally Identifiable Information) data exposure, and supporting
+    audit and authorization requirements in highly-regulated environments.
+  enabled: false
+  id: '5a712c53-89f2-309c-8d9f-57af486e186f'
+  name: PII (Health) Information detection
+  parameters:
+  - parameter: HEALTH_IDENTIFIERS
+    value: ALL
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: PIIhealth
+- description: Identifies highly-sensitive US Geographic Location information, helping
+    avoid PII (Personally Identifiable Information) data exposure, and supporting
+    audit and authorization requirements in highly-regulated environments.
+  enabled: false
+  id: 'bc3fb92d-2d87-38fa-9e10-97c8347bd91f'
+  name: PII (Location) Information detection
+  parameters:
+  - parameter: LOCATION_IDENTIFIERS
+    value: ALL
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: PIIlocation
+- description: Identifies highly-sensitive Computer-related and Date information,
+    helping avoid PII (Personally Identifiable Information) data exposure, and supporting
+    audit and authorization requirements in highly-regulated environments.
+  enabled: false
+  id: '02cd621e-9767-324a-9789-2118502d7a9a'
+  name: PII (Computer and Date) Information detection
+  parameters:
+  - parameter: COMPDATE_IDENTIFIERS
+    value: ALL
+  - parameter: MESSAGE
+    value: 'Policy violation: raw {filter_type} detected in {stmt_type} at statement
+      #{statement_number}, line {line_number}, positions {start}-{end}.{file_line_info}'
+  parentRuleId: null
+  severity: '0'
+  shortName: PIIcomputerAndDate
+version: '2.0'
